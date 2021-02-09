@@ -1,0 +1,61 @@
+<link rel="stylesheet" href="/bootstrap-table.css">
+<link rel="stylesheet" href="/style.css">
+  
+<script>
+  {{#if build}}
+    var data = {{{json build}}}
+  {{/if}}
+</script>
+
+	<body>    
+    <select class = "raid capitalize"></select>
+    
+    <table id="table"></table>
+      
+    <div class="card custom-build main" data-char-id="{{char}}">
+      <div class="card-header">
+        {{text 'custom_build' lang}} ({{text 'main' @root.lang}})
+      </div>
+      <div class="card-block">
+        <ul class="list-group"> 
+
+        </ul>
+      </div>
+    </div> 
+    <div class="card custom-build switching" style="margin-top:20px">
+      <div class="card-header">
+        {{text 'custom_build' lang}} ({{text 'switching' @root.lang}})
+      </div>
+      <div class="card-block">
+        <ul class="list-group"> 
+
+        </ul>
+      </div>
+    </div> 
+    {{#if loggedIn}}
+      <div class="form-group" style="margin-top: 25px">
+        <label for="title">{{text 'enter-title' @root.lang}} {{text 'optional' @root.lang}}</label>
+        <input type="text" class="form-control" id="title" placeholder="{{text 'enter-title' @root.lang}} {{text 'optional' @root.lang}}"></input>
+      </div>
+
+      <div class="form-group" style="margin-top: 10px">
+       <label for="description">{{text 'description' @root.lang}} {{text 'optional' @root.lang}}</label>
+       <textarea class="form-control" id="description" rows="3"></textarea>
+      </div>
+    {{/if}}
+    
+    <br/> 
+    
+    <div class = "text-center">
+      <a class = "btn btn-primary get-url" href="#" target="_blank">{{text 'get-url' lang}}</a>
+      {{#if loggedIn}}
+        <a class = "btn btn-primary save-build" href="#" target="_blank">{{text 'save-to-account' lang}}</a>
+      {{/if}}
+      <a class = "btn btn-primary try-build" href="#" data-toggle="modal" data-target="#try-build">{{text 'try-build' lang}}</a>
+    </div> 
+    
+	</body>
+
+<script src="/bootstrap-table.js"></script>
+<script src="/bootstrap-table-kor.js"></script>
+{{>try-build}}

@@ -1,0 +1,36 @@
+.purple,.unique {
+  color : #9859D8;
+}
+
+.orange,.legendary {
+  color : #F7950E;
+}
+
+.blue,.epic {
+  color : #4FC3D6;
+}
+
+.red,.mythic,.\+1,.\+2,.\+3,.\+0 {
+  color : red;
+}
+
+.darkred {
+  color : darkred;
+}
+
+.tooltip-inner {
+    max-width: 300px; 
+} 
+
+.tooltip {
+  min-width: 150px;
+}
+
+.item-tooltip {
+    white-space: nowrap;
+}
+
+.close {
+  font-size: 1rem;
+  margin-left: 5px;
+}

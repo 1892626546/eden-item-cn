@@ -1,0 +1,109 @@
+<div class = "items-build content container-fluid d-flex h-100 flex-column" style="padding: 0px 20px 20px 20px" data-char-id="{{data.id}}">
+  {{#if data._id}}
+    <div class = "row">
+      <div class=" col-3 text-center" style="margin-bottom:10px;font-size:24px;">
+        <span class="text-capitalize">{{data.title}}</span> {{text 'by' @root.lang}} {{data.username}}
+        <a class = "{{#if (and loggedIn (not canEdit))}}star{{/if}} noselect" data-url="./{{data._id}}/">
+          <i class="{{#unless isFavorite}}far{{/unless}} fa fa-star"></i>
+        </a>
+        <span class = "favorites">{{size data.favorites}}</span>
+      </div>
+    </div>
+  {{/if}}
+  <div class = "row bg-faded fill d-flex justify-content-start">
+    <div class = "col-3">
+      <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist">
+        {{#each types}} 
+          {{#if (lookup @root.byType this)}}
+            <a class="nav-link text-capitalize {{#if @first}}active{{/if}}" id="{{this}}-tab" data-toggle="pill" href="#{{this}}" role="tab" aria-controls="{{this}}" aria-expanded="{{@first}}">{{text this @root.lang}}</a>
+        {{/if}}
+        {{/each}} 
+        {{#if data._id}}
+          <ul style='margin-top:20px' class="list-group">
+            <li class="list-group-item">
+              <pre>{{data.description}}</pre>
+            </li>
+          </ul>
+        {{/if}}
+      </div>
+    </div>
+    <div class = "col-9 container-fluid d-flex h-100 flex-column">
+      <div class="tab-content" id="v-pills-tabContent">
+        {{#each types}}
+          <div class="tab-pane fade {{#if @first}}show active{{/if}}" id="{{this}}" role="tabpanel" aria-labelledby="{{this}}-tab" aria-expanded="{{@first}}">
+            {{#with (lookup @root.byType this)}} 
+              <div class = "row">
+                <div class = "col-2">
+                  <span><b>{{text 'main' @root.lang}} </b></span>
+                </div>    
+                <div class = "col">
+                  <span data-item-id="{{lookup this 'id'}}">{{{item this.main @root.lang}}}</span>
+                  {{#if (lookup this.main 'crafts')}}
+                    <button style="margin-left: 20px" data-item="{{this.main.id}}" class = "btn btn-primary build-tree" data-toggle="modal" data-target="#item-tree-modal">{{text 'view build tree' @root.lang}}</button>
+                  {{/if}}
+                </div>  
+              </div>
+              {{#if this.switching.length}}
+                <div class = "row">
+                  <div class = "col-2">
+                    <span><b>{{text 'switching' @root.lang}} </b></span>
+                  </div>
+                  <div class = "col">
+                    {{#each this.switching}}
+                      <div>
+                          <span data-item-id="{{lookup this 'id'}}">{{{item this @root.lang}}}</span>
+                          {{#if (lookup this 'materials')}}
+                            <button style="margin-left: 20px" data-item="{{this.id}}" class = "btn btn-primary build-tree" data-toggle="modal" data-target="#item-tree-modal">{{text 'view build tree' @root.lang}}</button>
+                          {{/if}}
+                      </div>
+                    {{/each}}
+                  </div>
+                </div>            
+              {{/if}}
+            {{/with}}
+          </div>
+        {{/each}}
+      </div>
+      <div data-char-id="{{data.id}}" style = "margin:20px" class = "fill d-flex justify-content-start">
+        <div class = "img"></div>
+      </div>
+    </div>
+  </div>
+  <div class = "footer text-center">
+      {{#if canEdit}}
+        <a class = "btn btn-primary" href = "./{{data._id}}/edit">{{text 'edit' lang}}</a>                                    
+      {{/if}}
+      {{#if (and (eq build.status 'pending') isMod)}}
+        <a class = "btn btn-success text-capitalize" href = "./{{data._id}}/approve">{{text 'approve' lang}}</a>     
+        <a class = "btn btn-danger text-capitalize" href = "./{{data._id}}/reject">{{text 'reject' lang}}</a>     
+      {{/if}}
+      {{#if (and (eq build.status 'public') isMod)}}
+        <a class = "btn btn-danger text-capitalize" href = "./{{data._id}}/reject">{{text 'revoke' lang}}</a>     
+      {{/if}}
+      <a class = "btn btn-primary try-build" href="#" data-toggle="modal" data-target="#try-build">{{text 'try-build' lang}}</a>
+  </div>
+</div>
+
+{{>try-build}}
+
+  <style>
+
+  html,body {
+      height: 100%;
+  }
+
+  .fill {
+      flex:1;
+  }
+
+  .img { 
+    flex: 1;
+    width: auto;
+    height: 100%;
+    background-size: contain; 
+    background-position: center center; 
+    background-repeat: no-repeat; 
+    background-image: url("{{getImage data}}");
+  }
+  </style>
+
